@@ -115,6 +115,22 @@ tbody tr:hover{background:rgba(205,164,85,.05)}
 .gal figure.wide img{aspect-ratio:2/1}
 .soon{display:inline-block;border:1px solid var(--red);background:rgba(176,30,42,.18);color:#f3b9be;font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;padding:6px 12px;margin-bottom:14px}
 figure .soon{position:absolute;top:14px;left:14px;margin:0;background:var(--red);color:#fff}
+/* butik katalógus */
+.cat-block{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:36px;align-items:start;padding:36px 0;border-top:1px solid var(--line)}
+.cat-block h3{font-size:30px;font-style:italic;font-weight:500;margin-bottom:6px}
+.cat-block>div>p{color:var(--mute);font-size:14.5px;margin-bottom:18px}
+.cat-block figure img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.cat-block figure+figure{margin-top:14px}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.it{background:#1f2024;border:1px solid var(--line);display:flex;flex-direction:column}
+.it img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.it div{padding:10px 12px 12px;border-top:1px solid var(--line);background:var(--black);flex:1}
+.it b{display:block;font-family:var(--display);font-size:17px;font-weight:500;line-height:1.25}
+.it span{color:var(--gold-hi);font-weight:600}
+.chipbox{display:flex;gap:18px;align-items:center;border:1px solid var(--gold);padding:14px 20px;margin-top:22px;background:linear-gradient(90deg,rgba(205,164,85,.12),transparent)}
+.chipbox img{width:92px;height:auto;border:1px solid var(--line)}
+.chipbox b{font-family:var(--display);font-size:26px;font-weight:500;color:var(--gold-hi);display:block}
+.chipbox span{color:#cfc7b8;font-size:14.5px}
 /* nyerőgép */
 .slot-sec{background:radial-gradient(ellipse at 50% 0,#17523d 0,var(--felt) 45%,#06120d 100%);border-block:1px solid var(--line)}
 .slot-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:52px;align-items:center}
@@ -197,7 +213,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
   .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
   .facts div:nth-child(2){border-right:0}.facts div:nth-child(-n+2){border-bottom:1px solid var(--line)}
   .week li{grid-template-columns:minmax(0,1fr)}.week .fee{text-align:left}
-  .menus,.foot,.duo{grid-template-columns:minmax(0,1fr)}
+  .menus,.foot,.duo,.cat-block{grid-template-columns:minmax(0,1fr)}
   .gal figure,.gal figure.wide{grid-column:span 6}
   section{padding:64px 0}
   .nav a:not(.btn){display:none}
@@ -282,6 +298,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
       <a href="#asztalok">Asztalok</a>
       <a href="#program">Program</a>
       <a href="#galeria">Galéria</a>
+      <a href="#butik">Butik</a>
       <a href="#bar">Bár</a>
       <a href="#club">Club 7</a>
       <a href="#latogatas">Látogatás</a>
@@ -337,16 +354,17 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
         <thead><tr><th>Játék</th><th>Szabály</th><th>Minimum</th><th>Maximum</th><th>Kifizetés</th></tr></thead>
         <tbody>
           <tr><td class="g">Európai rulett<small>8 asztal</small></td><td class="d">Egyetlen nulla, La Partage a páros téteken. A ház előnye 2,7%.</td><td class="m">$10</td><td class="m">$5,000</td><td class="m">35 : 1</td></tr>
-          <tr><td class="g">Blackjack<small>14 asztal</small></td><td class="d">Hat pakli, az osztó puha 17-en megáll. Dupla és osztás megengedett.</td><td class="m">$15</td><td class="m">$10,000</td><td class="m">3 : 2</td></tr>
-          <tr><td class="g">Baccarat<small>6 asztal</small></td><td class="d">Punto Banco. A bank nyereményéből 5% jutalék jár a háznak.</td><td class="m">$25</td><td class="m">$15,000</td><td class="m">1 : 1</td></tr>
+          <tr><td class="g">Blackjack<small>14 asztal</small></td><td class="d">Hat pakli, az osztó puha 17-en megáll. Dupla és osztás megengedett.</td><td class="m">$20</td><td class="m">$10,000</td><td class="m">3 : 2</td></tr>
+          <tr><td class="g">Baccarat<small>6 asztal</small></td><td class="d">Punto Banco. A bank nyereményéből 5% jutalék jár a háznak.</td><td class="m">$30</td><td class="m">$15,000</td><td class="m">1 : 1</td></tr>
           <tr><td class="g">Texas Hold'em<small>10 asztal</small></td><td class="d">No-Limit készpénzes játék $1/$3 és $2/$5 vakokkal. Rake 5%, legfeljebb $6.</td><td class="m">$100</td><td class="m">$1,000</td><td class="m">beülő</td></tr>
-          <tr><td class="g">Craps<small>4 asztal</small></td><td class="d">Pass Line háromszoros, négyszeres, ötszörös odds téttel.</td><td class="m">$15</td><td class="m">$5,000</td><td class="m">1 : 1</td></tr>
+          <tr><td class="g">Craps<small>4 asztal</small></td><td class="d">Pass Line háromszoros, négyszeres, ötszörös odds téttel.</td><td class="m">$20</td><td class="m">$5,000</td><td class="m">1 : 1</td></tr>
           <tr><td class="g">Nyerőgépek<small>600 gép</small></td><td class="d">1 centes, 25 centes, 1 és 5 dolláros gépek. Közös progresszív jackpot.</td><td class="m">$0.40</td><td class="m">$25</td><td class="m">pörgetés</td></tr>
           <tr><td class="g">Magas tétes szalon<small>Club 7 Gyémánt</small></td><td class="d">Zártkörű rulett, blackjack és baccarat, saját pénztárral és bárral.</td><td class="m">$100</td><td class="m">$50,000</td><td class="m">asztal szerint</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note">Zsetont a pénztárnál és az asztaloknál is válthatsz. $10,000 feletti készpénzes tranzakciónál igazolványt kérünk.</p>
+    <div class="chipbox num"><img src="i_zseton.png" alt="Zsetonok"><div><b>1 zseton = $10</b><span>Az asztaloknál zsetonnal játszol: a $10-os rulett minimum egy zseton, a $20-os blackjack minimum kettő. Zsetont a pénztárnál váltasz, és ott is váltod vissza.</span></div></div>
+    <p class="note">$10,000 feletti készpénzes tranzakciónál igazolványt kérünk.</p>
   </div>
 </section>
 
@@ -383,7 +401,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
     <ul class="week num">
       <li class="main"><span class="day">Hétfő</span><div><h3>Hétfő Night főverseny</h3><p>No-Limit Hold'em, 20 000 zseton kezdőkészlet, 20 perces szintek. Kezdés 20:00.</p></div><div class="fee">$150 + $20<small>garantált $10,000</small></div></li>
       <li><span class="day">Kedd</span><div><h3>Blackjack bajnokság</h3><p>Hét kör, asztalonként egy továbbjutó. Kezdés 19:00.</p></div><div class="fee">$100<small>nevezés</small></div></li>
-      <li><span class="day">Szerda</span><div><h3>Baccarat este</h3><p>Két Punto Banco asztal jutalék nélküli bank téttel este hat és éjfél között.</p></div><div class="fee">$25<small>minimum tét</small></div></li>
+      <li><span class="day">Szerda</span><div><h3>Baccarat este</h3><p>Két Punto Banco asztal jutalék nélküli bank téttel este hat és éjfél között.</p></div><div class="fee">$30<small>minimum tét, 3 zseton</small></div></li>
       <li><span class="day">Csütörtök</span><div><h3>Nyerőgép-verseny</h3><p>Húsz perc, ezer kredit, a legtöbb pontot gyűjtő tíz játékos osztozik a díjalapon. Kezdés 19:00.</p></div><div class="fee">$40<small>nevezés, díjalap $5,000</small></div></li>
       <li><span class="day">Péntek</span><div><h3>High Roller rulett</h3><p>Két kiemelt asztal emelt limittel a magas tétes szalonban.</p></div><div class="fee">$100<small>minimum tét</small></div></li>
       <li><span class="day">Szombat</span><div><h3>Deepstack</h3><p>No-Limit Hold'em, 40 000 zseton, 30 perces szintek. Kezdés 17:00.</p></div><div class="fee">$400 + $40<small>garantált $50,000</small></div></li>
@@ -401,6 +419,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
     <div class="gal">
       <figure class="wide"><img src="kulso.jpg" alt="A kaszinó épülete éjszaka, kivilágítva"><figcaption>Főépület, Vinewood Park Drive</figcaption></figure>
       <figure class="wide"><img src="eloter.jpg" alt="Az előtér márványfala a ház feliratával"><figcaption>Előtér</figcaption></figure>
+      <figure class="wide"><img src="bejarat.jpg" alt="A főbejárat világító felirata"><figcaption>Főbejárat</figcaption></figure>
+      <figure class="wide"><img src="felirat.jpg" alt="A ház felirata a márványfalon"><figcaption>Márványfal, lobbi</figcaption></figure>
       <figure><img src="recepcio.jpg" alt="A recepció pultja"><figcaption>Recepció</figcaption></figure>
       <figure><img src="nyerogepek.jpg" alt="Nyerőgépek körben a gyémánt szobor előtt"><figcaption>Nyerőgépterem</figcaption></figure>
       <figure><img src="butik.jpg" alt="A butik ruhákkal és vitrinekkel"><figcaption>Butik</figcaption></figure>
@@ -408,7 +428,28 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
   </div>
 </section>
 
-<section id="bar">
+<section id="butik">
+  <div class="wrap">
+    <div class="head">
+      <div><p class="eyebrow">Butik · online katalógus</p><h2>Ha jól ment az este</h2></div>
+      <p>Az ékszerbolt és a ruhabutik a lobbiból nyílik, éjjel-nappal nyitva. A katalógus tájékoztató, vásárolni személyesen, a pultnál lehet.</p>
+    </div>
+    <div class="cat-block">
+      <div><figure><img src="ekszer.jpg" alt="Az ékszerbolt megvilágított vitrinje nyakláncokkal és gyűrűkkel"><figcaption>Ékszervitrin</figcaption></figure></div>
+      <div><h3>Ékszer</h3><p>Tizenegy darab a vitrinből, a pult mögött felpróbálhatod.</p><div class="items num"><div class="it"><img src="i_gyemantnyaklanc.png" alt=""><div><b>Gyémántnyaklánc</b><span>$2,000</span></div></div><div class="it"><img src="i_aranynyaklanc.png" alt=""><div><b>Aranynyaklánc</b><span>$1,800</span></div></div><div class="it"><img src="i_gyemantgyuru.png" alt=""><div><b>Gyémántgyűrű, fehérarany</b><span>$1,230</span></div></div><div class="it"><img src="i_gyemantgyuru2.png" alt=""><div><b>Gyémántgyűrű, sárgaarany</b><span>$1,150</span></div></div><div class="it"><img src="i_gyemantfulbevalo.png" alt=""><div><b>Gyémánt fülbevaló</b><span>$965</span></div></div><div class="it"><img src="i_aranygyuru.png" alt=""><div><b>Aranygyűrű</b><span>$925</span></div></div><div class="it"><img src="i_aranylanc.png" alt=""><div><b>Aranylánc</b><span>$845</span></div></div><div class="it"><img src="i_aranyfulbevalo.png" alt=""><div><b>Arany fülbevaló</b><span>$765</span></div></div><div class="it"><img src="i_aranyora.png" alt=""><div><b>Aranyóra</b><span>$380</span></div></div><div class="it"><img src="i_ezustgyuru.png" alt=""><div><b>Ezüstgyűrű</b><span>$300</span></div></div><div class="it"><img src="i_ezustfulbevalo.png" alt=""><div><b>Ezüst fülbevaló</b><span>$253</span></div></div></div></div>
+    </div>
+    <div class="cat-block">
+      <div><figure><img src="ruhak2.jpg" alt="Ruhaállvány kabátokkal, estélyi ruhákkal és cipőkkel"><figcaption>Ruhabutik</figcaption></figure><figure><img src="ruhak1.jpg" alt="Kabátok és cipők közelről"><figcaption>Kabátok és cipők</figcaption></figure></div>
+      <div><h3>Ruházat</h3><p>Este nyolc után elegáns öltözet kell a teremben. Itt mindent megtalálsz hozzá.</p><ul class="menu num"><li><span>Szmoking csokornyakkendővel</span><b>$1,450</b></li><li><span>Bőrkabát, fekete</span><b>$890</b></li><li><span>Bőrdzseki, barna</span><b>$720</b></li><li><span>Gyapjúkabát sállal</span><b>$680</b></li><li><span>Estélyi ruha, fekete</span><b>$540</b></li><li><span>Estélyi ruha, vörös</span><b>$560</b></li><li><span>Bőrcsizma, cognac</span><b>$420</b></li><li><span>Oxford cipő</span><b>$340</b></li><li><span>Magassarkú szandál</span><b>$290</b></li></ul></div>
+    </div>
+    <div class="cat-block">
+      <div><figure><img src="vitrin1.jpg" alt="Vitrin táskákkal, nyakkendőkkel és órákkal"><figcaption>Kiegészítők, 1. vitrin</figcaption></figure><figure><img src="vitrin2.jpg" alt="Vitrin aktatáskákkal, napszemüveggel és zoknikkal"><figcaption>Kiegészítők, 2. vitrin</figcaption></figure></div>
+      <div><h3>Kiegészítők</h3><p>Táskák, órák és apróságok a két középső vitrinből.</p><ul class="menu num"><li><span>Bőr aktatáska</span><b>$560</b></li><li><span>Bőr laptoptáska</span><b>$480</b></li><li><span>Karóra, acél</span><b>$340</b></li><li><span>Napszemüveg</span><b>$210</b></li><li><span>Bőr pénztárca</span><b>$180</b></li><li><span>Bőrkesztyű</span><b>$130</b></li><li><span>Selyem nyakkendő</span><b>$95</b></li><li><span>Díszzsebkendő</span><b>$45</b></li><li><span>Zokni, 3 pár</span><b>$36</b></li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="bar" class="alt">
   <div class="wrap split">
     <figure><img src="barpult.jpg" alt="A kör alakú bárpult a játékterem közepén"><span class="soon">Hamarosan nyílik</span><figcaption>Lounge bár, földszint</figcaption></figure>
     <div>
@@ -433,11 +474,11 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
   </div>
 </section>
 
-<section id="club" class="alt">
+<section id="club">
   <div class="wrap">
     <div class="head">
       <div><p class="eyebrow">Club 7 hűségprogram</p><h2>A kártya ingyenes, a szint rajtad múlik</h2></div>
-      <p>A recepción igazolvánnyal két perc alatt kiváltod. Minden $1 nyerőgépes tét és minden $5 asztali tét egy pontot ér.</p>
+      <p>A recepción igazolvánnyal két perc alatt kiváltod. Minden $1 nyerőgépes tét egy pontot, minden asztalra tett zseton két pontot ér.</p>
     </div>
     <div class="tiers num">
       <div class="tier"><h3>Ezüst</h3><p class="req">Belépéskor, 0 ponttól</p><ul><li>Pontgyűjtés minden játékon</li><li>$10 ingyen játék az első napon</li><li>10% kedvezmény a butikban</li></ul></div>
@@ -448,7 +489,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
   </div>
 </section>
 
-<section id="latogatas">
+<section id="latogatas" class="alt">
   <div class="wrap">
     <div class="visit">
       <div>
@@ -482,7 +523,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
   <div class="wrap">
     <div class="foot">
       <div><img src="logo.png" alt="" style="height:60px;margin-bottom:14px"><p style="max-width:42ch">7Fő Diamond Casino. Kitalált kaszinó egy GTA V roleplay szerveren. Nem valódi szerencsejáték, valódi pénz nincs benne, az árak játékbeli dollárban értendők.</p></div>
-      <div><h4>A ház</h4><ul><li><a href="#asztalok">Asztalok és limitek</a></li><li><a href="#program">Heti program</a></li><li><a href="#galeria">Galéria</a></li><li><a href="#bar">Bár (hamarosan)</a></li><li><a href="#club">Club 7</a></li></ul></div>
+      <div><h4>A ház</h4><ul><li><a href="#asztalok">Asztalok és limitek</a></li><li><a href="#program">Heti program</a></li><li><a href="#galeria">Galéria</a></li><li><a href="#butik">Butik</a></li><li><a href="#bar">Bár (hamarosan)</a></li><li><a href="#club">Club 7</a></li></ul></div>
       <div><h4>Vendégeknek</h4><ul><li><a href="#latogatas">Nyitva tartás és parkolás</a></li><li><a href="#latogatas">Öltözet</a></li><li><a href="#latogatas">Felelős játék</a></li><li><a href="#nyerogep">Demó nyerőgép</a></li></ul></div>
     </div>
     <div class="legal">
