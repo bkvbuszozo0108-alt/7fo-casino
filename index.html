@@ -282,6 +282,11 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
 #pop label{font-size:11px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
 #pop input,#pop textarea,.card input,.card textarea{font:inherit;background:#020305;color:#e3edf5;border:1px solid var(--edge);padding:7px 8px;width:100%}
 #pop textarea{min-height:70px;resize:vertical}
+.pimg:empty{display:none}
+.pimg img{width:100%;max-height:150px;object-fit:cover;border:1px solid var(--edge);cursor:zoom-in;display:block}
+#lb{position:absolute;inset:0;z-index:20;background:rgba(2,3,5,.92);display:grid;place-items:center;padding:20px;cursor:zoom-out}
+#lb[hidden]{display:none}
+#lb img{max-width:100%;max-height:100%;border:1px solid var(--g)}
 .ptitle{display:flex;gap:9px;align-items:center;color:#e3edf5;font-size:14px}
 #pText{color:#b7c4cf;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
@@ -608,7 +613,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
       <div class="rw">
         <h4>Mit raksz le?</h4>
         <div id="opts"></div>
-        <p class="hint">Válassz egyet, aztán <b>kattints a térképre</b>. A körre kattintva megnyílik a kis menü: név, ikon és hogy mi van ott. A kört arrébb is húzhatod.</p>
+        <p class="hint">Válassz egyet, aztán <b>kattints a térképre</b>. A körre kattintva megnyílik a kis menü: név, ikon, kép és hogy mi van ott. A kört arrébb is húzhatod.</p>
       </div>
       <p class="hint ronly">Csak megtekintés. Kattints egy körre a részletekért. Szerkeszteni csak a főnöki kóddal lehet.</p>
       <div>
@@ -630,18 +635,23 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
             <label for="pName">Név</label><input id="pName" type="text" maxlength="60" placeholder="pl. Sarki díler">
             <label>Ikon</label><div class="picker" id="pIcons"></div>
             <label for="pNote">Mi van ott?</label><textarea id="pNote" maxlength="400" placeholder="ár, őr, nyitás, jelszó…"></textarea>
+            <label>Kép</label><div class="pimg" id="pImgBox"></div>
+            <div class="row"><label class="kbtn" for="pFile">Kép feltöltése</label><input id="pFile" type="file" accept="image/*" hidden><button class="kbtn warn" id="pImgDel" type="button" hidden>Kép törlése</button></div>
             <div class="row"><button class="kbtn" id="pDone" type="button">Kész</button><button class="kbtn" id="pSave" type="button">Mentés opcióként</button><button class="kbtn warn" id="pDel" type="button">Törlés</button></div>
             <div class="hint" id="pMsg"></div>
           </div>
           <div class="ronly">
             <div class="ptitle"><span id="pIco"></span><b id="pTitle"></b></div>
             <p id="pText"></p>
+            <div class="pimg" id="pImgRo"></div>
             <button class="kbtn" id="pClose" type="button">Bezár</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <div id="lb" hidden><img alt=""></div>
 
   <div class="pane scroll" id="pane-stock">
     <div class="box">
@@ -863,7 +873,7 @@ function rootPatch(id,data){
   }).catch(function(){status("a mentés nem sikerült, próbáld újra",true)});
 }
 function persist(m){if(!canWrite())return;store[m.id]=body(m);rootPatch(m.id,body(m))}
-function removeMark(id){if(!canWrite())return;marks=marks.filter(function(m){return m.id!==id});delete store[id];rootPatch(id,null)}
+function removeMark(id){if(!canWrite())return;marks=marks.filter(function(m){return m.id!==id});delete store[id];rootPatch(id,null);imgPatch(id,null).catch(function(){})}
 function flush(){if(pendT){clearTimeout(pendT);pendT=null}if(pend){var p=pend;pend=null;persist(p)}}
 function fromStore(){
   var arr=[];Object.keys(store).forEach(function(id){var b=store[id];if(b&&typeof b==="object")arr.push({id:id,cat:b.cat,name:b.name,note:b.note,x:b.x,y:b.y})});
@@ -993,11 +1003,39 @@ function fillPop(){
   if(canWrite()){$("pName").value=m.name;$("pNote").value=m.note;curIcon=m.cat;drawIcons();$("pMsg").textContent=""}
   else{$("pIco").textContent="";$("pIco").append(ico(m.cat));$("pTitle").textContent=m.name;$("pText").textContent=m.note||"Nincs megjegyzés."}
 }
+/* a helyekhez tartozó kép külön van tárolva, csak a kis menü megnyitásakor töltődik le */
+function imgUrl(id){return DB+"/m/"+encodeURIComponent(mc)+"/kepek/"+encodeURIComponent(id)+".json"}
+function showImg(v){
+  ["pImgBox","pImgRo"].forEach(function(b){$(b).textContent=""});
+  $("pImgDel").hidden=!v;
+  if(v){var im=el("img");im.alt="A helyhez feltöltött kép";im.src=v;
+    im.addEventListener("click",function(){var lb=$("lb");lb.firstChild.src=v;lb.hidden=false});
+    $(canWrite()?"pImgBox":"pImgRo").append(im)}
+  placePop();
+}
+function loadImg(id){
+  showImg(null);
+  fetch(imgUrl(id)).then(function(r){return r.ok?r.json():null}).then(function(v){if(sel===id&&okImg(v))showImg(v)}).catch(function(){});
+}
+function imgPatch(id,data){
+  var o={};o["m/"+mc+"/kepek/"+id]=data;o["kapu/"+bc+"/n"]={".sv":{"increment":1}};
+  return fetch(DB+"/.json",{method:"PATCH",body:JSON.stringify(o)}).then(function(r){if(!r.ok)throw new Error("http "+r.status)});
+}
+$("lb").addEventListener("click",function(){$("lb").hidden=true});
+$("pFile").addEventListener("change",function(){
+  var f=$("pFile").files[0],id=sel;$("pFile").value="";if(!f||!id||!canWrite())return;
+  $("pMsg").textContent="Kép feldolgozása…";
+  shrink(f).then(function(d){return imgPatch(id,d).then(function(){if(sel===id){showImg(d);$("pMsg").textContent="Kép elmentve."}})})
+    .catch(function(){$("pMsg").textContent="A képet nem sikerült feltölteni, próbáld újra vagy válassz kisebbet."});
+});
+$("pImgDel").addEventListener("click",function(){var id=sel;if(!id||!canWrite())return;
+  imgPatch(id,null).then(function(){if(sel===id){showImg(null);$("pMsg").textContent="Kép törölve."}}).catch(function(){$("pMsg").textContent="A törlés nem sikerült."})});
 function select(id){
-  if(id!==sel)flush();
+  var changed=id!==sel;
+  if(changed)flush();
   sel=id;var m=id&&byId(id);
   pop.hidden=!m;
-  if(m)fillPop();
+  if(m){fillPop();if(changed)loadImg(m.id)}
   render();placePop();
 }
 function edit(){var m=byId(sel);if(!m||!canWrite())return;
