@@ -956,7 +956,7 @@ function render(){
 }
 /* feliratok elrendezése: egy név sem takarhat másik kört vagy másik nevet; ha sehol nincs hely, a név csak rámutatásra látszik */
 var K=1,lastS=0,layT=0;
-function queueLayout(){if(layT)return;layT=requestAnimationFrame(function(){layT=0;layoutLabels()})}
+function queueLayout(){if(layT)return;layT=setTimeout(function(){layT=0;layoutLabels()},20)}
 function ov(a,b){return a[0]<b[2]&&b[0]<a[2]&&a[1]<b[3]&&b[1]<a[3]}
 function layoutLabels(){
   var pts=[];layer.querySelectorAll(".mk").forEach(function(n){var m=byId(n.dataset.id);if(m)pts.push({n:n,x:m.x*W*s,y:m.y*H*s,sel:m.id===sel})});
