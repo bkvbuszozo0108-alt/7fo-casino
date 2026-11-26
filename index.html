@@ -275,7 +275,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
 .pk{background:#020305;border:1px solid var(--edge);padding:6px;cursor:pointer;display:grid;place-items:center}
 .pk:hover{border-color:var(--dim)}
 .pk.on{border-color:var(--g);background:rgba(143,208,245,.12)}
-#pop{position:absolute;z-index:6;width:270px;max-width:calc(100% - 16px);background:var(--panel);border:1px solid var(--g);padding:12px;box-shadow:0 16px 40px rgba(0,0,0,.7);cursor:default}
+#pop{position:absolute;z-index:6;width:270px;max-width:calc(100% - 16px);max-height:calc(100% - 16px);overflow-y:auto;background:var(--panel);border:1px solid var(--g);padding:12px;box-shadow:0 16px 40px rgba(0,0,0,.7);cursor:default}
 #pop .rw,#pop .ronly{display:flex;flex-direction:column;gap:7px}
 #dark.ro #pop .rw{display:none}
 #dark:not(.ro) #pop .ronly{display:none}
