@@ -58,8 +58,7 @@ p{margin:0}
 
 /* hős */
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
-  background:radial-gradient(ellipse 60% 70% at 78% 45%,rgba(176,30,42,.28),transparent 70%),
-  repeating-linear-gradient(90deg,rgba(205,164,85,.05) 0 1px,transparent 1px 84px),var(--black)}
+  background:linear-gradient(90deg,rgba(5,5,5,.94) 0%,rgba(5,5,5,.78) 45%,rgba(5,5,5,.5) 100%),linear-gradient(0deg,var(--black),transparent 40%),url(kulso.jpg) 60% 45%/cover no-repeat,var(--black)}
 .hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center;padding-top:76px;padding-bottom:76px}
 .hero h1{font-size:clamp(46px,6.6vw,96px);letter-spacing:-.015em;margin:16px 0 20px;font-weight:500}
 .hero h1 em{font-style:italic;color:var(--gold)}
@@ -107,6 +106,15 @@ td.m{font-family:var(--display);font-size:21px;color:var(--gold-hi);white-space:
 tbody tr:hover{background:rgba(205,164,85,.05)}
 .note{margin-top:14px;font-size:13px;color:var(--mute)}
 
+/* képek */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+.duo img,.gal img{width:100%;height:100%;object-fit:cover;aspect-ratio:16/9}
+.gal{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+.gal figure{grid-column:span 2}
+.gal figure.wide{grid-column:span 3}
+.gal figure.wide img{aspect-ratio:2/1}
+.soon{display:inline-block;border:1px solid var(--red);background:rgba(176,30,42,.18);color:#f3b9be;font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;padding:6px 12px;margin-bottom:14px}
+figure .soon{position:absolute;top:14px;left:14px;margin:0;background:var(--red);color:#fff}
 /* nyerőgép */
 .slot-sec{background:radial-gradient(ellipse at 50% 0,#17523d 0,var(--felt) 45%,#06120d 100%);border-block:1px solid var(--line)}
 .slot-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:52px;align-items:center}
@@ -189,7 +197,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
   .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
   .facts div:nth-child(2){border-right:0}.facts div:nth-child(-n+2){border-bottom:1px solid var(--line)}
   .week li{grid-template-columns:minmax(0,1fr)}.week .fee{text-align:left}
-  .menus,.foot{grid-template-columns:minmax(0,1fr)}
+  .menus,.foot,.duo{grid-template-columns:minmax(0,1fr)}
+  .gal figure,.gal figure.wide{grid-column:span 6}
   section{padding:64px 0}
   .nav a:not(.btn){display:none}
 }
@@ -272,7 +281,8 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
     <nav class="nav" aria-label="Fő menü">
       <a href="#asztalok">Asztalok</a>
       <a href="#program">Program</a>
-      <a href="#bar">Bár és konyha</a>
+      <a href="#galeria">Galéria</a>
+      <a href="#bar">Bár</a>
       <a href="#club">Club 7</a>
       <a href="#latogatas">Látogatás</a>
       <a class="btn" href="#club">Csatlakozom</a>
@@ -286,7 +296,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
     <div>
       <p class="eyebrow">Vinewood Park Drive · Los Santos</p>
       <h1>A ház mindig <em>hét fővel</em> játszik.</h1>
-      <p class="lead">Negyvenkét élő asztal, hatszáz nyerőgép és egy bár, ahol hajnalban is frissen rázzák a koktélt. Foglalj asztalt, vagy csak sétálj be.</p>
+      <p class="lead">Negyvenkét élő asztal és hatszáz nyerőgép Vinewood szívében, éjjel-nappal nyitva. Foglalj asztalt, vagy csak sétálj be.</p>
       <div class="cta">
         <a class="btn" href="#asztalok">Asztalok és limitek</a>
         <a class="btn ghost" href="#program">Heti program</a>
@@ -317,6 +327,10 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
     <div class="head">
       <div><p class="eyebrow">A játékterem</p><h2>Asztalok és limitek</h2></div>
       <p>Minden asztalnál a ház krupiéja oszt. A minimum tét hétvégén és este nyolc után magasabb lehet, a pontos összeg az asztal tábláján áll.</p>
+    </div>
+    <div class="duo">
+      <figure><img src="rulett.jpg" alt="Rulettasztal a nagyteremben, mögötte a krupié"><figcaption>Rulett, nagyterem</figcaption></figure>
+      <figure><img src="blackjack.jpg" alt="Blackjack asztal az osztóval a magas tétes szalonban"><figcaption>Blackjack, magas tétes szalon</figcaption></figure>
     </div>
     <div class="tbl-wrap">
       <table class="num">
@@ -369,58 +383,72 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
     <ul class="week num">
       <li class="main"><span class="day">Hétfő</span><div><h3>Hétfő Night főverseny</h3><p>No-Limit Hold'em, 20 000 zseton kezdőkészlet, 20 perces szintek. Kezdés 20:00.</p></div><div class="fee">$150 + $20<small>garantált $10,000</small></div></li>
       <li><span class="day">Kedd</span><div><h3>Blackjack bajnokság</h3><p>Hét kör, asztalonként egy továbbjutó. Kezdés 19:00.</p></div><div class="fee">$100<small>nevezés</small></div></li>
-      <li><span class="day">Szerda</span><div><h3>Pezsgős este</h3><p>Egy pohár pezsgő fél áron este hat és tíz között a lounge bárban.</p></div><div class="fee">$12<small>pohár</small></div></li>
-      <li><span class="day">Csütörtök</span><div><h3>Élő jazz a lounge-ban</h3><p>Trió a színpadon 21:00-tól. Asztalfoglalás ajánlott.</p></div><div class="fee">ingyenes<small>belépő</small></div></li>
+      <li><span class="day">Szerda</span><div><h3>Baccarat este</h3><p>Két Punto Banco asztal jutalék nélküli bank téttel este hat és éjfél között.</p></div><div class="fee">$25<small>minimum tét</small></div></li>
+      <li><span class="day">Csütörtök</span><div><h3>Nyerőgép-verseny</h3><p>Húsz perc, ezer kredit, a legtöbb pontot gyűjtő tíz játékos osztozik a díjalapon. Kezdés 19:00.</p></div><div class="fee">$40<small>nevezés, díjalap $5,000</small></div></li>
       <li><span class="day">Péntek</span><div><h3>High Roller rulett</h3><p>Két kiemelt asztal emelt limittel a magas tétes szalonban.</p></div><div class="fee">$100<small>minimum tét</small></div></li>
       <li><span class="day">Szombat</span><div><h3>Deepstack</h3><p>No-Limit Hold'em, 40 000 zseton, 30 perces szintek. Kezdés 17:00.</p></div><div class="fee">$400 + $40<small>garantált $50,000</small></div></li>
-      <li><span class="day">Vasárnap</span><div><h3>Brunch és nyerőgép-verseny</h3><p>Brunch 10:00 és 14:00 között, utána verseny a Club 7 tagoknak.</p></div><div class="fee">$58<small>brunch, fejenként</small></div></li>
+      <li><span class="day">Vasárnap</span><div><h3>Szerencsekerék-nap</h3><p>Minden Club 7 tag egy ingyen pörgetést kap a nagyteremben álló keréken. Főnyeremény a pódiumon álló autó.</p></div><div class="fee">ingyenes<small>Club 7 tagoknak</small></div></li>
     </ul>
   </div>
 </section>
 
-<section id="bar" class="alt">
+<section id="galeria" class="alt">
+  <div class="wrap">
+    <div class="head">
+      <div><p class="eyebrow">Galéria</p><h2>Nézz körül a házban</h2></div>
+      <p>A főbejárattól a magas tétes szalonig. A butikban öltönyt, órát és ékszert is találsz, ha az asztalnál jól ment az este.</p>
+    </div>
+    <div class="gal">
+      <figure class="wide"><img src="kulso.jpg" alt="A kaszinó épülete éjszaka, kivilágítva"><figcaption>Főépület, Vinewood Park Drive</figcaption></figure>
+      <figure class="wide"><img src="eloter.jpg" alt="Az előtér márványfala a ház feliratával"><figcaption>Előtér</figcaption></figure>
+      <figure><img src="recepcio.jpg" alt="A recepció pultja"><figcaption>Recepció</figcaption></figure>
+      <figure><img src="nyerogepek.jpg" alt="Nyerőgépek körben a gyémánt szobor előtt"><figcaption>Nyerőgépterem</figcaption></figure>
+      <figure><img src="butik.jpg" alt="A butik ruhákkal és vitrinekkel"><figcaption>Butik</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="bar">
   <div class="wrap split">
-    <figure><img src="bar.jpg" alt="A kaszinó bárpultja, a pultos és két vendég"><figcaption>Lounge bár, földszint</figcaption></figure>
+    <figure><img src="barpult.jpg" alt="A kör alakú bárpult a játékterem közepén"><span class="soon">Hamarosan nyílik</span><figcaption>Lounge bár, földszint</figcaption></figure>
     <div>
-      <p class="eyebrow">Bár és konyha</p>
-      <h2 class="h2" style="font-size:clamp(30px,4vw,48px);margin-bottom:14px">A pultnál nincs vesztes kör</h2>
-      <p style="color:var(--mute)">A lounge bár éjjel-nappal nyitva van, a konyha hajnali kettőig főz. Az asztaloknál játszó vendégeknek az üdítő és a kávé ingyenes.</p>
+      <span class="soon">Még nincs nyitva</span>
+      <h2 class="h2" style="font-size:clamp(30px,4vw,48px);margin:0 0 14px">A bár hamarosan nyit</h2>
+      <p style="color:var(--mute)">A játékterem közepén álló lounge bár még előkészület alatt áll, egyelőre nem szolgálunk ki. A nyitás napját itt és a recepción hirdetjük ki. Addig is itt az előzetes itallap.</p>
       <div class="menus num">
-        <div><h3>Itallap</h3><ul class="menu">
+        <div><h3>Koktélok</h3><ul class="menu">
           <li><span>Hétfő Sour</span><b>$18</b></li>
           <li><span>Old Fashioned</span><b>$19</b></li>
+          <li><span>Espresso Martini</span><b>$18</b></li>
+          <li><span>Negroni</span><b>$17</b></li>
+        </ul></div>
+        <div><h3>Italok</h3><ul class="menu">
           <li><span>Csapolt sör</span><b>$9</b></li>
           <li><span>Pezsgő, pohár</span><b>$24</b></li>
+          <li><span>Whiskey, 4 cl</span><b>$16</b></li>
           <li><span>Dom Pérignon, palack</span><b>$595</b></li>
-        </ul></div>
-        <div><h3>Konyha</h3><ul class="menu">
-          <li><span>Wagyu burger</span><b>$28</b></li>
-          <li><span>Cézár saláta</span><b>$19</b></li>
-          <li><span>Ribeye steak, 400 g</span><b>$68</b></li>
-          <li><span>Homár tészta</span><b>$46</b></li>
-          <li><span>Sajttorta</span><b>$14</b></li>
         </ul></div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="club">
+<section id="club" class="alt">
   <div class="wrap">
     <div class="head">
       <div><p class="eyebrow">Club 7 hűségprogram</p><h2>A kártya ingyenes, a szint rajtad múlik</h2></div>
       <p>A recepción igazolvánnyal két perc alatt kiváltod. Minden $1 nyerőgépes tét és minden $5 asztali tét egy pontot ér.</p>
     </div>
     <div class="tiers num">
-      <div class="tier"><h3>Ezüst</h3><p class="req">Belépéskor, 0 ponttól</p><ul><li>Pontgyűjtés minden játékon</li><li>$10 ingyen játék az első napon</li><li>10% kedvezmény a konyhán</li></ul></div>
+      <div class="tier"><h3>Ezüst</h3><p class="req">Belépéskor, 0 ponttól</p><ul><li>Pontgyűjtés minden játékon</li><li>$10 ingyen játék az első napon</li><li>10% kedvezmény a butikban</li></ul></div>
       <div class="tier"><h3>Arany</h3><p class="req">5,000 ponttól</p><ul><li>Ingyenes valet parkolás</li><li>Soron kívüli asztalfoglalás</li><li>Havi $50 ingyen játék</li></ul></div>
-      <div class="tier best"><h3>Gyémánt</h3><p class="req">25,000 ponttól</p><ul><li>Belépés a magas tétes szalonba</li><li>Személyes vendéglátó</li><li>Havi vacsora két főre a ház vendégeként</li></ul></div>
+      <div class="tier best"><h3>Gyémánt</h3><p class="req">25,000 ponttól</p><ul><li>Belépés a magas tétes szalonba</li><li>Személyes vendéglátó</li><li>Meghívó a zártkörű versenyekre</li></ul></div>
       <div class="tier"><h3>Hetes</h3><p class="req">Csak meghívással</p><ul><li>Egyedi limitek és hitelkeret</li><li>Zártkörű pókerestek</li><li>Sofőr a ház autójával</li></ul></div>
     </div>
   </div>
 </section>
 
-<section id="latogatas" class="alt">
+<section id="latogatas">
   <div class="wrap">
     <div class="visit">
       <div>
@@ -428,7 +456,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
         <h2 class="h2">Mielőtt elindulsz</h2>
         <dl class="info num">
           <dt>Cím</dt><dd>Vinewood Park Drive<small>Los Santos, a lóversenypálya mellett</small></dd>
-          <dt>Nyitva</dt><dd>Minden nap 0–24<small>Konyha 11:00 – 02:00</small></dd>
+          <dt>Nyitva</dt><dd>Minden nap 0–24<small>A pénztár és a recepció is éjjel-nappal nyitva. A bár még nem üzemel.</small></dd>
           <dt>Belépés</dt><dd>Ingyenes, 21 éves kortól<small>Fényképes igazolvány kötelező</small></dd>
           <dt>Parkolás</dt><dd>Valet $25<small>A parkolóház ingyenes</small></dd>
           <dt>Öltözet</dt><dd>Elegáns hétköznapi<small>Este nyolc után sportruha, sapka, papucs nélkül</small></dd>
@@ -439,7 +467,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
         <details><summary>Fizethetek kártyával az asztalnál?</summary><p>Az asztaloknál készpénzzel és zsetonnal játszhatsz. Kártyával a pénztárnál válthatsz zsetont, ATM a főbejáratnál és a nyerőgépteremben van.</p></details>
         <details><summary>Hozhatok be fegyvert?</summary><p>Nem. Fegyvert, maszkot és sisakot a ruhatárban kell leadni, a biztonsági szolgálat a bejáratnál ellenőriz.</p></details>
         <details><summary>Mi történik, ha vita van az asztalnál?</summary><p>A teremfőnök dönt, szükség esetén a kamerafelvétel alapján. A döntése végleges. Csalásért azonnali kitiltás jár.</p></details>
-        <details><summary>Lehet nálatok dolgozni?</summary><p>Krupiét, pultost és biztonsági munkatársat folyamatosan keresünk. Jelentkezz személyesen a recepción.</p></details>
+        <details><summary>Lehet nálatok dolgozni?</summary><p>Krupiét és biztonsági munkatársat folyamatosan keresünk, a bár nyitásához pultosokat is. Jelentkezz személyesen a recepción.</p></details>
       </div>
     </div>
     <div class="resp">
@@ -454,7 +482,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
   <div class="wrap">
     <div class="foot">
       <div><img src="logo.png" alt="" style="height:60px;margin-bottom:14px"><p style="max-width:42ch">7Fő Diamond Casino. Kitalált kaszinó egy GTA V roleplay szerveren. Nem valódi szerencsejáték, valódi pénz nincs benne, az árak játékbeli dollárban értendők.</p></div>
-      <div><h4>A ház</h4><ul><li><a href="#asztalok">Asztalok és limitek</a></li><li><a href="#program">Heti program</a></li><li><a href="#bar">Bár és konyha</a></li><li><a href="#club">Club 7</a></li></ul></div>
+      <div><h4>A ház</h4><ul><li><a href="#asztalok">Asztalok és limitek</a></li><li><a href="#program">Heti program</a></li><li><a href="#galeria">Galéria</a></li><li><a href="#bar">Bár (hamarosan)</a></li><li><a href="#club">Club 7</a></li></ul></div>
       <div><h4>Vendégeknek</h4><ul><li><a href="#latogatas">Nyitva tartás és parkolás</a></li><li><a href="#latogatas">Öltözet</a></li><li><a href="#latogatas">Felelős játék</a></li><li><a href="#nyerogep">Demó nyerőgép</a></li></ul></div>
     </div>
     <div class="legal">
@@ -482,7 +510,7 @@ footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);fo
         <h4>Kategóriák</h4>
         <div id="cats"></div>
         <p class="hint rw">Válassz kategóriát, aztán <b>kattints a térképre</b>. A jelölőt utána arrébb is húzhatod. Amit leraksz, azt mindenki látja.</p>
-        <p class="hint ronly">Csak olvasás. Helyet a tulaj és az általa szerkesztőnek meghívott tagok rakhatnak le.</p>
+        <p class="hint ronly">Csak olvasás.</p>
       </div>
       <div id="editor">
         <label for="eName">Név</label><input id="eName" type="text" maxlength="60">
@@ -605,46 +633,63 @@ function status(txt,bad){var st=$("stat");st.className=bad?"bad":"";st.textConte
 function setRO(){if(!canWrite)return;canWrite=false;dark.classList.add("ro");placing=null;view.classList.remove("placing");
   ["eName","eCat","eNote"].forEach(function(i){$(i).disabled=true});setMode();render()}
 
-/* mentés: közös adatbázis, vagy ha az nem érhető el, ez a böngésző */
-function body(m){return {cat:m.cat,name:m.name,note:m.note,x:m.x,y:m.y}}
-function queue(id,fn){queues[id]=(queues[id]||Promise.resolve()).then(fn).catch(function(e){
-  if(e&&e.code==="invalid_argument")setRO();else status("a mentés nem sikerült, próbáld újra",true)})}
+/* mentés: közös Firebase adatbázis; ha nem érhető el, ez a böngésző */
+var DB="https://fo-casino-default-rtdb.europe-west1.firebasedatabase.app",store={},gotFirst=false;
+function body(m){return {cat:m.cat,name:m.name,note:m.note||"",x:m.x,y:m.y}}
+function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(marks))}catch(e){}}
+function send(id,method,data){
+  queues[id]=(queues[id]||Promise.resolve()).then(function(){
+    return fetch(DB+"/helyek/"+encodeURIComponent(id)+".json",{method:method,body:data?JSON.stringify(data):undefined})
+      .then(function(r){if(!r.ok)throw new Error("http "+r.status)});
+  }).catch(function(){status("a mentés nem sikerült, próbáld újra",true)});
+}
 function persist(m){
-  if(!shared){try{localStorage.setItem(KEY,JSON.stringify(marks))}catch(e){}return}
-  var b=body(m),id=m.id;queue(id,function(){return shared.collection("helyek").doc(id).set(b)});
+  if(!shared){saveLocal();return}
+  store[m.id]=body(m);send(m.id,"PUT",body(m));
 }
 function removeMark(id){
   marks=marks.filter(function(m){return m.id!==id});
-  if(!shared){try{localStorage.setItem(KEY,JSON.stringify(marks))}catch(e){}return}
-  queue(id,function(){return shared.collection("helyek").doc(id).delete()});
+  if(!shared){saveLocal();return}
+  delete store[id];send(id,"DELETE");
 }
 function flush(){if(pendT){clearTimeout(pendT);pendT=null}if(pend){var p=pend;pend=null;persist(p)}}
 
 function localMode(){
   shared=null;
   try{marks=clean(JSON.parse(localStorage.getItem(KEY)||"[]"))}catch(e){marks=[]}
-  status("csak ezen a gépen (a közös adatbázis még nincs bekötve)",true);render();
+  status("csak ezen a gépen (a közös adatbázis nem érhető el)",true);render();
 }
-function onSnap(snap){
-  clearTimeout(loadT);
-  var arr=[];snap.docs.forEach(function(d){var b=d.data();if(b)arr.push({id:d.id,cat:b.cat,name:b.name,note:b.note,x:b.x,y:b.y})});
+function fromStore(){
+  var arr=[];Object.keys(store).forEach(function(id){var b=store[id];if(b&&typeof b==="object")arr.push({id:id,cat:b.cat,name:b.name,note:b.note,x:b.x,y:b.y})});
   var next=clean(arr);
   if(drag&&drag.mark&&drag.moved){var cur=byId(drag.mark);if(cur)next.forEach(function(m){if(m.id===cur.id){m.x=cur.x;m.y=cur.y}})}
   if(pend)next.forEach(function(m){if(m.id===pend.id){m.name=pend.name;m.cat=pend.cat;m.note=pend.note}});
   marks=next;
   if(sel&&!byId(sel))select(null);else render();
-  status(snap.metadata&&snap.metadata.fromCache?"szinkronizálás…":"élő");
+}
+function applyEvent(kind,ev){
+  var d;try{d=JSON.parse(ev.data)}catch(e){return}
+  if(!d||typeof d.path!=="string")return;
+  var parts=d.path.split("/").filter(Boolean),v=d.data;
+  if(parts.length===0){
+    if(kind==="put")store=(v&&typeof v==="object")?v:{};
+    else if(v)Object.keys(v).forEach(function(k){if(v[k]===null)delete store[k];else store[k]=v[k]});
+  }else if(parts.length===1){
+    var id=parts[0];
+    if(kind==="put"){if(v===null)delete store[id];else store[id]=v}
+    else if(v){store[id]=store[id]||{};Object.keys(v).forEach(function(k){store[id][k]=v[k]})}
+  }else{store[parts[0]]=store[parts[0]]||{};store[parts[0]][parts[1]]=v}
+  gotFirst=true;shared=true;clearTimeout(loadT);fromStore();status("élő");
 }
 function initShared(){
-  if(!window.claude||typeof window.claude.use!=="function"){localMode();return}
-  Promise.all([window.claude.use("db"),window.claude.use("user")]).then(function(r){
-    var db=r[0],user=r[1];
-    if(!db){localMode();return}
-    shared=db;status("kapcsolódás…");
-    loadT=setTimeout(function(){status("most nem érhető el, a látott adat régi lehet",true)},10000);
-    db.collection("helyek").onSnapshot(onSnap,function(){clearTimeout(loadT);status("megszakadt a kapcsolat, töltsd újra az oldalt",true)});
-    if(user)user.can("data.write").then(function(v){if(v===false)setRO()});
-  }).catch(localMode);
+  if(!window.EventSource||!window.fetch){localMode();return}
+  shared=true;status("kapcsolódás…");
+  loadT=setTimeout(function(){if(!gotFirst)localMode()},10000);
+  var es=new EventSource(DB+"/helyek.json");
+  es.addEventListener("put",function(e){applyEvent("put",e)});
+  es.addEventListener("patch",function(e){applyEvent("patch",e)});
+  es.addEventListener("cancel",function(){status("a hozzáférést letiltották",true)});
+  es.onerror=function(){if(gotFirst)status("megszakadt, újracsatlakozás…",true)};
 }
 
 function apply(){layer.style.width=W+"px";layer.style.height=H+"px";layer.style.transform="translate("+tx+"px,"+ty+"px) scale("+s+")";layer.style.setProperty("--s",s)}
