@@ -881,7 +881,7 @@ function startMap(){
 }
 
 function apply(){layer.style.width=W+"px";layer.style.height=H+"px";layer.style.transform="translate("+tx+"px,"+ty+"px) scale("+s+")";
-  var k=Math.min(1,Math.max(.55,Math.sqrt(s)*.8));layer.style.setProperty("--s",s/k);placePop()}
+  var k=Math.min(1.1,Math.max(.78,Math.sqrt(s)*.9));layer.style.setProperty("--s",s/k);placePop()}
 function fit(){var r=view.getBoundingClientRect();if(!r.width)return;s=Math.min(r.width/W,r.height/H)*.96;tx=(r.width-W*s)/2;ty=(r.height-H*s)/2;apply()}
 function zoom(f,cx,cy){var r=view.getBoundingClientRect();if(cx==null){cx=r.width/2;cy=r.height/2}
   var ns=Math.min(10,Math.max(.1,s*f));tx=cx-(cx-tx)*(ns/s);ty=cy-(cy-ty)*(ns/s);s=ns;apply()}
