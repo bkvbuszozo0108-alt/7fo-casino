@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>7Fő Diamond Casino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: fekete terem, arany vonalak, vörös bársony kiemelés. Széles, szellős szakaszok, a számok (limit, ár, jackpot) viszik a szemet.
+   A rejtett rész külön világ: monokróm terminál, szín csak a térképjelölőkön. Egy témás oldal, szándékosan. */
+:root{
+  color-scheme:dark;
+  --black:#050505;
+  --coal:#0e0d0c;
+  --smoke:#181614;
+  --line:#2a2620;
+  --ivory:#f3ecdf;
+  --mute:#9b9384;
+  --gold:#cda455;
+  --gold-hi:#f2d99c;
+  --red:#b01e2a;
+  --felt:#0d3a2b;
+  --display:"Bodoni Moda","Didot","Times New Roman",serif;
+  --body:"Manrope","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Consolas",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--black);color:var(--ivory);font-family:var(--body);font-size:16px;line-height:1.65}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 22px}
+.eyebrow{font-size:11.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.num{font-variant-numeric:tabular-nums lining-nums}
+
+/* felső sáv + fejléc */
+.util{background:var(--coal);border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.util .wrap{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;padding-top:7px;padding-bottom:7px}
+.util b{color:var(--gold-hi);font-weight:600}
+.top{position:sticky;top:0;z-index:20;background:rgba(5,5,5,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px 20px;min-height:70px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.brand img{height:44px;width:auto}
+.brand span{font-family:var(--display);font-size:21px;letter-spacing:.01em}
+.brand small{display:block;font-family:var(--body);font-size:10px;letter-spacing:.34em;color:var(--gold);text-transform:uppercase}
+.nav{display:flex;gap:6px 24px;flex-wrap:wrap;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;align-items:center}
+.nav a{text-decoration:none;color:#cfc7b8;padding:6px 0;border-bottom:1px solid transparent}
+.nav a:hover{color:var(--gold-hi);border-color:var(--gold)}
+.btn{display:inline-block;padding:13px 26px;border:1px solid var(--gold);color:#120d03;background:linear-gradient(180deg,var(--gold-hi),var(--gold));font-weight:700;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;cursor:pointer;font-family:var(--body)}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--gold-hi)}
+.btn.ghost:hover{background:rgba(205,164,85,.12)}
+.nav .btn{padding:9px 16px;color:#120d03;border-bottom:1px solid var(--gold)}
+
+/* hős */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
+  background:radial-gradient(ellipse 60% 70% at 78% 45%,rgba(176,30,42,.28),transparent 70%),
+  repeating-linear-gradient(90deg,rgba(205,164,85,.05) 0 1px,transparent 1px 84px),var(--black)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center;padding-top:76px;padding-bottom:76px}
+.hero h1{font-size:clamp(46px,6.6vw,96px);letter-spacing:-.015em;margin:16px 0 20px;font-weight:500}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.lead{max-width:48ch;color:#d9d1c2;font-size:18px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.jack{margin-top:40px;border-top:1px solid var(--line);padding-top:20px;display:flex;gap:14px 40px;flex-wrap:wrap;align-items:end}
+.jack small{display:block;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--mute)}
+.jack .big{font-family:var(--display);font-size:clamp(34px,4.6vw,56px);color:var(--gold-hi);line-height:1.1}
+.jack .mid{font-family:var(--display);font-size:26px;line-height:1.3}
+.wheel-box{position:relative;justify-self:center;width:min(100%,460px);aspect-ratio:1}
+.wheel{position:absolute;inset:0;border-radius:50%;border:10px solid #1a1206;box-shadow:0 0 0 2px var(--gold),0 0 0 14px #0b0806,0 0 0 15px var(--gold),0 40px 90px rgba(0,0,0,.8);animation:turn 80s linear infinite}
+.wheel::after{content:"";position:absolute;inset:11%;border-radius:50%;border:1px solid rgba(242,217,156,.5)}
+@keyframes turn{to{transform:rotate(360deg)}}
+.hub{position:absolute;inset:21%;border-radius:50%;background:radial-gradient(circle,#15120e,#050505 70%);border:2px solid var(--gold);display:grid;place-items:center;box-shadow:inset 0 0 40px #000}
+.hub img{width:74%}
+
+.ticker{overflow:hidden;border-bottom:1px solid var(--line);background:var(--coal);font-size:14px;white-space:nowrap}
+.ticker div{display:inline-block;padding:11px 0;animation:run 46s linear infinite}
+.ticker span{margin:0 28px;color:var(--mute)}
+.ticker b{color:var(--gold-hi);font-family:var(--display);font-size:17px;font-weight:600}
+@keyframes run{to{transform:translateX(-50%)}}
+
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--line)}
+.facts div{padding:30px 22px;border-right:1px solid var(--line);text-align:center}
+.facts div:last-child{border-right:0}
+.facts b{display:block;font-family:var(--display);font-size:clamp(32px,4vw,50px);font-weight:500;color:var(--gold-hi);line-height:1.1}
+.facts span{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+
+section{padding:92px 0}
+.head{display:flex;justify-content:space-between;align-items:end;gap:20px 40px;flex-wrap:wrap;margin-bottom:40px}
+.head h2,.h2{font-size:clamp(34px,4.6vw,58px);margin-top:12px;font-weight:500}
+.head p{max-width:46ch;color:var(--mute)}
+.alt{background:var(--coal);border-block:1px solid var(--line)}
+
+/* asztalok táblázata */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:720px}
+th{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);font-weight:600;text-align:left;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--coal)}
+td{padding:20px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.g{font-family:var(--display);font-size:25px;white-space:nowrap}
+td.g small{display:block;font-family:var(--body);font-size:12px;color:var(--mute);letter-spacing:.06em}
+td.d{color:#cfc7b8;font-size:14.5px;max-width:40ch}
+td.m{font-family:var(--display);font-size:21px;color:var(--gold-hi);white-space:nowrap}
+tbody tr:hover{background:rgba(205,164,85,.05)}
+.note{margin-top:14px;font-size:13px;color:var(--mute)}
+
+/* nyerőgép */
+.slot-sec{background:radial-gradient(ellipse at 50% 0,#17523d 0,var(--felt) 45%,#06120d 100%);border-block:1px solid var(--line)}
+.slot-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:52px;align-items:center}
+.machine{border:2px solid var(--gold);background:var(--black);padding:18px;box-shadow:0 0 0 6px var(--black),0 0 0 7px var(--gold),0 30px 60px rgba(0,0,0,.6);max-width:440px;justify-self:center;width:100%}
+.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.reel{aspect-ratio:3/4;background:linear-gradient(180deg,#cfc8b9,#fffaf0 50%,#cfc8b9);color:#111;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:clamp(34px,7vw,58px);border:1px solid #000}
+.reel.red{color:var(--red)}
+.reel.spin{animation:blur .09s linear infinite}
+@keyframes blur{50%{transform:translateY(5px);filter:blur(2px)}}
+.readout{display:flex;justify-content:space-between;gap:10px;margin:14px 0;font-family:var(--mono);font-size:13px;color:var(--gold-hi);flex-wrap:wrap}
+.machine .btn{width:100%;text-align:center}
+#slotMsg{min-height:1.6em;margin-top:10px;text-align:center;font-family:var(--display);font-style:italic;font-size:18px}
+.pay{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:6px;max-width:360px}
+.pay li{display:flex;justify-content:space-between;border-bottom:1px dotted rgba(243,236,223,.25);padding:5px 0}
+.pay b{font-family:var(--display);color:var(--gold-hi);font-size:18px}
+
+/* heti program */
+.week{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.week li{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:8px 28px;padding:20px 4px;border-bottom:1px solid var(--line);align-items:baseline}
+.week .day{font-family:var(--display);font-style:italic;font-size:24px;color:var(--gold)}
+.week h3{font-size:22px;font-weight:500}
+.week p{color:var(--mute);font-size:14.5px}
+.week .fee{font-family:var(--display);font-size:20px;white-space:nowrap;text-align:right}
+.week .fee small{display:block;font-family:var(--body);font-size:11.5px;color:var(--mute);letter-spacing:.1em;text-transform:uppercase}
+.week li.main{background:linear-gradient(90deg,rgba(176,30,42,.2),transparent 70%)}
+
+/* bár, étterem */
+.split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:52px;align-items:center}
+figure{margin:0;border:1px solid var(--line);position:relative}
+figcaption{position:absolute;left:0;bottom:0;background:var(--black);padding:6px 14px;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+.menus{display:grid;grid-template-columns:1fr 1fr;gap:10px 36px;margin-top:26px}
+.menus h3{font-size:14px;font-family:var(--body);letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:6px}
+.menu{list-style:none;margin:0;padding:0}
+.menu li{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid var(--line)}
+.menu span{font-family:var(--display);font-size:18px}
+.menu b{color:var(--gold-hi);font-weight:600}
+
+/* club */
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.tier{padding:32px 26px;background:var(--black)}
+.tier.best{background:linear-gradient(180deg,#201809,var(--black))}
+.tier h3{font-size:32px;font-style:italic;font-weight:500}
+.tier .req{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:8px 0 18px}
+.tier ul{margin:0;padding-left:18px;color:#cfc7b8;font-size:14.5px}
+.tier li{margin:7px 0}
+
+/* látogatás */
+.visit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
+dl.info{margin:26px 0 0;display:grid;grid-template-columns:auto 1fr;gap:14px 28px}
+dl.info dt{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);padding-top:5px}
+dl.info dd{margin:0;font-family:var(--display);font-size:20px;line-height:1.35}
+dl.info dd small{display:block;font-family:var(--body);font-size:13.5px;color:var(--mute)}
+details{border-bottom:1px solid var(--line);padding:16px 0}
+details:first-of-type{border-top:1px solid var(--line)}
+summary{cursor:pointer;font-family:var(--display);font-size:21px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::after{content:"+";color:var(--gold)}
+details[open] summary::after{content:"–"}
+details p{color:#cfc7b8;margin-top:10px;max-width:60ch;font-size:15px}
+
+.resp{border:1px solid var(--line);padding:26px;display:flex;gap:16px 28px;align-items:center;flex-wrap:wrap;margin-top:56px}
+.resp .age{font-family:var(--display);font-size:34px;border:2px solid var(--ivory);border-radius:50%;width:74px;height:74px;display:grid;place-items:center;flex:none}
+.resp p{flex:1;min-width:240px;color:#cfc7b8;font-size:14.5px}
+
+footer{border-top:1px solid var(--line);padding:44px 0 50px;color:var(--mute);font-size:13.5px;background:var(--coal)}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+.foot h4{margin:0 0 10px;font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.foot ul{list-style:none;margin:0;padding:0}
+.foot li{margin:5px 0}
+.foot a{text-decoration:none}.foot a:hover{color:var(--gold-hi)}
+.legal{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
+#tap7{background:none;border:0;color:var(--line);font-family:var(--display);font-size:22px;cursor:default;padding:6px 10px}
+#codeForm{display:none;gap:8px}
+#codeForm.on{display:flex}
+#codeForm input{background:var(--black);border:1px solid var(--line);color:var(--ivory);padding:8px 10px;font-family:var(--mono);width:170px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+
+@media (max-width:860px){
+  .hero .wrap,.slot-grid,.split,.visit{grid-template-columns:minmax(0,1fr)}
+  .wheel-box{width:min(78%,320px);order:-1}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .facts div:nth-child(2){border-right:0}.facts div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .week li{grid-template-columns:minmax(0,1fr)}.week .fee{text-align:left}
+  .menus,.foot{grid-template-columns:minmax(0,1fr)}
+  section{padding:64px 0}
+  .nav a:not(.btn){display:none}
+}
+
+/* ============ rejtett rész ============ */
+#dark{position:fixed;inset:0;z-index:100;background:#020403;color:#b9c7bd;font-family:var(--mono);font-size:13px;display:none;flex-direction:column;
+  --g:#5fe08d;--dim:#62716a;--edge:#17211b;--panel:#070b09}
+#dark.on{display:flex}
+#dark::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px);z-index:5}
+#boot{position:absolute;inset:0;background:#020403;z-index:10;padding:28px;color:var(--g);white-space:pre-wrap;line-height:1.9;display:none}
+#dark.booting #boot{display:block}
+.dk-top{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--edge);background:var(--panel)}
+.dk-top img{height:26px;opacity:.9}
+.dk-addr{flex:1;min-width:200px;border:1px solid var(--edge);padding:6px 10px;color:var(--g);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dk-addr i{color:var(--dim);font-style:normal}
+#stat{color:var(--dim)}
+#stat b{color:var(--g);font-weight:400}
+#stat.bad b{color:#e6c65a}
+.kbtn{font:inherit;background:transparent;color:#b9c7bd;border:1px solid var(--edge);padding:6px 10px;cursor:pointer}
+.kbtn:hover{border-color:var(--g);color:var(--g)}
+.kbtn.warn:hover{border-color:#e0605f;color:#e0605f}
+.dk-body{flex:1;min-height:0;display:grid;grid-template-columns:330px minmax(0,1fr)}
+.dk-side{border-right:1px solid var(--edge);overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:18px;background:var(--panel)}
+.dk-side h4{margin:0 0 8px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);font-weight:400}
+.cat{display:grid;grid-template-columns:26px 1fr auto auto;gap:8px;align-items:center;border:1px solid transparent;padding:5px 6px;cursor:pointer}
+.cat:hover{border-color:var(--edge)}
+.cat.act{border-color:var(--c);background:rgba(255,255,255,.04)}
+.cat.off{opacity:.4}
+.glyph{width:24px;height:24px;border-radius:50%;border:2px solid var(--c);color:var(--c);display:grid;place-items:center;font-weight:600;font-size:11px;background:#020403}
+.cat .n{color:var(--dim)}
+.eye{font:inherit;font-size:11px;background:none;border:1px solid var(--edge);color:var(--dim);padding:1px 5px;cursor:pointer}
+.hint{color:var(--dim);margin-top:8px;line-height:1.5}
+.hint b{color:var(--g);font-weight:400}
+#editor{border:1px solid var(--g);padding:10px;display:none;flex-direction:column;gap:8px}
+#editor.on{display:flex}
+#editor label{font-size:11px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+#editor input,#editor select,#editor textarea{font:inherit;background:#020403;color:#dfe9e2;border:1px solid var(--edge);padding:7px 8px;width:100%}
+#editor textarea{min-height:64px;resize:vertical}
+#list{display:flex;flex-direction:column}
+.item{display:grid;grid-template-columns:12px 1fr;gap:8px;align-items:baseline;text-align:left;font:inherit;color:inherit;background:none;border:0;border-bottom:1px solid var(--edge);padding:7px 2px;cursor:pointer}
+.item:hover,.item.sel{color:var(--g)}
+.item i{width:9px;height:9px;border-radius:50%;background:var(--c);display:block}
+.item small{display:block;color:var(--dim);overflow-wrap:anywhere}
+#dark.ro .rw{display:none}
+#dark:not(.ro) .ronly{display:none}
+.dk-map{position:relative;min-height:0;display:flex;flex-direction:column}
+.tools{display:flex;gap:8px;flex-wrap:wrap;padding:8px 12px;border-bottom:1px solid var(--edge);align-items:center}
+#mode{color:var(--dim)}
+#mode b{color:var(--g);font-weight:400}
+#view{flex:1;min-height:300px;position:relative;overflow:hidden;touch-action:none;cursor:grab;background:#384b52}
+#view.placing{cursor:crosshair}
+#layer{position:absolute;left:0;top:0;transform-origin:0 0;--s:1}
+#base{width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none;max-width:none}
+.mk{position:absolute;transform:translate(-50%,-50%) scale(calc(1/var(--s)));cursor:pointer;z-index:1}
+.mk .glyph{width:28px;height:28px;font-size:12px;box-shadow:0 0 0 2px #020403,0 0 12px var(--c)}
+.mk span{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:4px;background:#020403;border:1px solid var(--edge);padding:1px 6px;white-space:nowrap;font-size:11px;color:#dfe9e2;display:none}
+.mk:hover{z-index:3}.mk:hover span,.mk.sel span{display:block}
+.mk.sel{z-index:2}.mk.sel .glyph{background:var(--c);color:#020403}
+@media (max-width:820px){
+  .dk-body{grid-template-columns:minmax(0,1fr);grid-template-rows:58% 42%}
+  .dk-map{order:-1}
+  .dk-side{border-right:0;border-top:1px solid var(--edge)}
+}
+@media (prefers-reduced-motion:reduce){
+  .wheel,.ticker div,.reel.spin{animation:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="util"><div class="wrap">
+  <span>Nyitva <b>0–24</b>, az év minden napján</span>
+  <span>Belépés <b>21 éves kortól</b>, fényképes igazolvánnyal</span>
+</div></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="logo.png" alt="7Fő Casino logó"><span>7Fő Diamond Casino<small>Los Santos</small></span></a>
+    <nav class="nav" aria-label="Fő menü">
+      <a href="#asztalok">Asztalok</a>
+      <a href="#program">Program</a>
+      <a href="#bar">Bár és konyha</a>
+      <a href="#club">Club 7</a>
+      <a href="#latogatas">Látogatás</a>
+      <a class="btn" href="#club">Csatlakozom</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Vinewood Park Drive · Los Santos</p>
+      <h1>A ház mindig <em>hét fővel</em> játszik.</h1>
+      <p class="lead">Negyvenkét élő asztal, hatszáz nyerőgép és egy bár, ahol hajnalban is frissen rázzák a koktélt. Foglalj asztalt, vagy csak sétálj be.</p>
+      <div class="cta">
+        <a class="btn" href="#asztalok">Asztalok és limitek</a>
+        <a class="btn ghost" href="#program">Heti program</a>
+      </div>
+      <div class="jack">
+        <div><small>Közös nyerőgép-jackpot, most</small><div class="big num" id="jackpot">$1,284,317.42</div></div>
+        <div><small>Legutóbbi nagy nyeremény</small><div class="mid num">$86,450 · rulett, 17 fekete</div></div>
+      </div>
+    </div>
+    <div class="wheel-box" aria-hidden="true">
+      <div class="wheel" id="wheel"></div>
+      <div class="hub"><img src="logo.png" alt=""></div>
+    </div>
+  </div>
+</div>
+
+<div class="ticker" aria-hidden="true"><div id="tick"></div></div>
+
+<div class="facts num">
+  <div><b>42</b><span>élő asztal</span></div>
+  <div><b>600</b><span>nyerőgép</span></div>
+  <div><b>97,3%</b><span>európai rulett visszafizetés</span></div>
+  <div><b>0–24</b><span>nyitva tartás</span></div>
+</div>
+
+<section id="asztalok">
+  <div class="wrap">
+    <div class="head">
+      <div><p class="eyebrow">A játékterem</p><h2>Asztalok és limitek</h2></div>
+      <p>Minden asztalnál a ház krupiéja oszt. A minimum tét hétvégén és este nyolc után magasabb lehet, a pontos összeg az asztal tábláján áll.</p>
+    </div>
+    <div class="tbl-wrap">
+      <table class="num">
+        <thead><tr><th>Játék</th><th>Szabály</th><th>Minimum</th><th>Maximum</th><th>Kifizetés</th></tr></thead>
+        <tbody>
+          <tr><td class="g">Európai rulett<small>8 asztal</small></td><td class="d">Egyetlen nulla, La Partage a páros téteken. A ház előnye 2,7%.</td><td class="m">$10</td><td class="m">$5,000</td><td class="m">35 : 1</td></tr>
+          <tr><td class="g">Blackjack<small>14 asztal</small></td><td class="d">Hat pakli, az osztó puha 17-en megáll. Dupla és osztás megengedett.</td><td class="m">$15</td><td class="m">$10,000</td><td class="m">3 : 2</td></tr>
+          <tr><td class="g">Baccarat<small>6 asztal</small></td><td class="d">Punto Banco. A bank nyereményéből 5% jutalék jár a háznak.</td><td class="m">$25</td><td class="m">$15,000</td><td class="m">1 : 1</td></tr>
+          <tr><td class="g">Texas Hold'em<small>10 asztal</small></td><td class="d">No-Limit készpénzes játék $1/$3 és $2/$5 vakokkal. Rake 5%, legfeljebb $6.</td><td class="m">$100</td><td class="m">$1,000</td><td class="m">beülő</td></tr>
+          <tr><td class="g">Craps<small>4 asztal</small></td><td class="d">Pass Line háromszoros, négyszeres, ötszörös odds téttel.</td><td class="m">$15</td><td class="m">$5,000</td><td class="m">1 : 1</td></tr>
+          <tr><td class="g">Nyerőgépek<small>600 gép</small></td><td class="d">1 centes, 25 centes, 1 és 5 dolláros gépek. Közös progresszív jackpot.</td><td class="m">$0.40</td><td class="m">$25</td><td class="m">pörgetés</td></tr>
+          <tr><td class="g">Magas tétes szalon<small>Club 7 Gyémánt</small></td><td class="d">Zártkörű rulett, blackjack és baccarat, saját pénztárral és bárral.</td><td class="m">$100</td><td class="m">$50,000</td><td class="m">asztal szerint</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Zsetont a pénztárnál és az asztaloknál is válthatsz. $10,000 feletti készpénzes tranzakciónál igazolványt kérünk.</p>
+  </div>
+</section>
+
+<section class="slot-sec" id="nyerogep">
+  <div class="wrap slot-grid">
+    <div>
+      <p class="eyebrow">Próbakör a ház számlájára</p>
+      <h2 class="h2" style="margin-bottom:16px">Húzd meg a kart</h2>
+      <p style="max-width:46ch;color:#cfe0d6">Egy dolláros gép, demó kredittel. Valódi pénz nincs benne, és a kredit nem váltható semmire. Az igazi gépek a földszinten várnak.</p>
+      <ul class="pay num">
+        <li><span>7 · 7 · 7</span><b>$50</b></li>
+        <li><span>♦ · ♦ · ♦</span><b>$20</b></li>
+        <li><span>Három egyforma</span><b>$10</b></li>
+        <li><span>Két egyforma</span><b>$2</b></li>
+      </ul>
+    </div>
+    <div class="machine">
+      <div class="reels" aria-live="polite">
+        <div class="reel red" id="r0">7</div><div class="reel red" id="r1">7</div><div class="reel red" id="r2">7</div>
+      </div>
+      <div class="readout num"><span>KREDIT $<b id="bal">100</b></span><span>TÉT $1</span><span>NYEREMÉNY $<b id="win">0</b></span></div>
+      <button class="btn" id="spin" type="button">Pörgetés</button>
+      <div id="slotMsg">Sok szerencsét.</div>
+    </div>
+  </div>
+</section>
+
+<section id="program">
+  <div class="wrap">
+    <div class="head">
+      <div><p class="eyebrow">Heti program</p><h2>Nálunk a hétfő a főnap</h2></div>
+      <p>A versenyekre a pókerpénztárnál nevezhetsz, a kezdés előtt legkésőbb fél órával. A nevezési díj második tagja a ház díja.</p>
+    </div>
+    <ul class="week num">
+      <li class="main"><span class="day">Hétfő</span><div><h3>Hétfő Night főverseny</h3><p>No-Limit Hold'em, 20 000 zseton kezdőkészlet, 20 perces szintek. Kezdés 20:00.</p></div><div class="fee">$150 + $20<small>garantált $10,000</small></div></li>
+      <li><span class="day">Kedd</span><div><h3>Blackjack bajnokság</h3><p>Hét kör, asztalonként egy továbbjutó. Kezdés 19:00.</p></div><div class="fee">$100<small>nevezés</small></div></li>
+      <li><span class="day">Szerda</span><div><h3>Pezsgős este</h3><p>Egy pohár pezsgő fél áron este hat és tíz között a lounge bárban.</p></div><div class="fee">$12<small>pohár</small></div></li>
+      <li><span class="day">Csütörtök</span><div><h3>Élő jazz a lounge-ban</h3><p>Trió a színpadon 21:00-tól. Asztalfoglalás ajánlott.</p></div><div class="fee">ingyenes<small>belépő</small></div></li>
+      <li><span class="day">Péntek</span><div><h3>High Roller rulett</h3><p>Két kiemelt asztal emelt limittel a magas tétes szalonban.</p></div><div class="fee">$100<small>minimum tét</small></div></li>
+      <li><span class="day">Szombat</span><div><h3>Deepstack</h3><p>No-Limit Hold'em, 40 000 zseton, 30 perces szintek. Kezdés 17:00.</p></div><div class="fee">$400 + $40<small>garantált $50,000</small></div></li>
+      <li><span class="day">Vasárnap</span><div><h3>Brunch és nyerőgép-verseny</h3><p>Brunch 10:00 és 14:00 között, utána verseny a Club 7 tagoknak.</p></div><div class="fee">$58<small>brunch, fejenként</small></div></li>
+    </ul>
+  </div>
+</section>
+
+<section id="bar" class="alt">
+  <div class="wrap split">
+    <figure><img src="bar.jpg" alt="A kaszinó bárpultja, a pultos és két vendég"><figcaption>Lounge bár, földszint</figcaption></figure>
+    <div>
+      <p class="eyebrow">Bár és konyha</p>
+      <h2 class="h2" style="font-size:clamp(30px,4vw,48px);margin-bottom:14px">A pultnál nincs vesztes kör</h2>
+      <p style="color:var(--mute)">A lounge bár éjjel-nappal nyitva van, a konyha hajnali kettőig főz. Az asztaloknál játszó vendégeknek az üdítő és a kávé ingyenes.</p>
+      <div class="menus num">
+        <div><h3>Itallap</h3><ul class="menu">
+          <li><span>Hétfő Sour</span><b>$18</b></li>
+          <li><span>Old Fashioned</span><b>$19</b></li>
+          <li><span>Csapolt sör</span><b>$9</b></li>
+          <li><span>Pezsgő, pohár</span><b>$24</b></li>
+          <li><span>Dom Pérignon, palack</span><b>$595</b></li>
+        </ul></div>
+        <div><h3>Konyha</h3><ul class="menu">
+          <li><span>Wagyu burger</span><b>$28</b></li>
+          <li><span>Cézár saláta</span><b>$19</b></li>
+          <li><span>Ribeye steak, 400 g</span><b>$68</b></li>
+          <li><span>Homár tészta</span><b>$46</b></li>
+          <li><span>Sajttorta</span><b>$14</b></li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="club">
+  <div class="wrap">
+    <div class="head">
+      <div><p class="eyebrow">Club 7 hűségprogram</p><h2>A kártya ingyenes, a szint rajtad múlik</h2></div>
+      <p>A recepción igazolvánnyal két perc alatt kiváltod. Minden $1 nyerőgépes tét és minden $5 asztali tét egy pontot ér.</p>
+    </div>
+    <div class="tiers num">
+      <div class="tier"><h3>Ezüst</h3><p class="req">Belépéskor, 0 ponttól</p><ul><li>Pontgyűjtés minden játékon</li><li>$10 ingyen játék az első napon</li><li>10% kedvezmény a konyhán</li></ul></div>
+      <div class="tier"><h3>Arany</h3><p class="req">5,000 ponttól</p><ul><li>Ingyenes valet parkolás</li><li>Soron kívüli asztalfoglalás</li><li>Havi $50 ingyen játék</li></ul></div>
+      <div class="tier best"><h3>Gyémánt</h3><p class="req">25,000 ponttól</p><ul><li>Belépés a magas tétes szalonba</li><li>Személyes vendéglátó</li><li>Havi vacsora két főre a ház vendégeként</li></ul></div>
+      <div class="tier"><h3>Hetes</h3><p class="req">Csak meghívással</p><ul><li>Egyedi limitek és hitelkeret</li><li>Zártkörű pókerestek</li><li>Sofőr a ház autójával</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="latogatas" class="alt">
+  <div class="wrap">
+    <div class="visit">
+      <div>
+        <p class="eyebrow">Látogatás</p>
+        <h2 class="h2">Mielőtt elindulsz</h2>
+        <dl class="info num">
+          <dt>Cím</dt><dd>Vinewood Park Drive<small>Los Santos, a lóversenypálya mellett</small></dd>
+          <dt>Nyitva</dt><dd>Minden nap 0–24<small>Konyha 11:00 – 02:00</small></dd>
+          <dt>Belépés</dt><dd>Ingyenes, 21 éves kortól<small>Fényképes igazolvány kötelező</small></dd>
+          <dt>Parkolás</dt><dd>Valet $25<small>A parkolóház ingyenes</small></dd>
+          <dt>Öltözet</dt><dd>Elegáns hétköznapi<small>Este nyolc után sportruha, sapka, papucs nélkül</small></dd>
+        </dl>
+      </div>
+      <div>
+        <figure style="margin-bottom:26px"><img src="van.jpg" alt="A kaszinó piros furgonja a 7Fő Casino logóval"><figcaption>A ház autója</figcaption></figure>
+        <details><summary>Fizethetek kártyával az asztalnál?</summary><p>Az asztaloknál készpénzzel és zsetonnal játszhatsz. Kártyával a pénztárnál válthatsz zsetont, ATM a főbejáratnál és a nyerőgépteremben van.</p></details>
+        <details><summary>Hozhatok be fegyvert?</summary><p>Nem. Fegyvert, maszkot és sisakot a ruhatárban kell leadni, a biztonsági szolgálat a bejáratnál ellenőriz.</p></details>
+        <details><summary>Mi történik, ha vita van az asztalnál?</summary><p>A teremfőnök dönt, szükség esetén a kamerafelvétel alapján. A döntése végleges. Csalásért azonnali kitiltás jár.</p></details>
+        <details><summary>Lehet nálatok dolgozni?</summary><p>Krupiét, pultost és biztonsági munkatársat folyamatosan keresünk. Jelentkezz személyesen a recepción.</p></details>
+      </div>
+    </div>
+    <div class="resp">
+      <div class="age">21+</div>
+      <p><b style="color:var(--ivory)">Játssz felelősséggel.</b> Szabj magadnak keretet, mielőtt leülsz, és ne játssz olyan pénzzel, amire szükséged van. A recepción bármikor kérhetsz napi limitet vagy önkizárást.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><img src="logo.png" alt="" style="height:60px;margin-bottom:14px"><p style="max-width:42ch">7Fő Diamond Casino. Kitalált kaszinó egy GTA V roleplay szerveren. Nem valódi szerencsejáték, valódi pénz nincs benne, az árak játékbeli dollárban értendők.</p></div>
+      <div><h4>A ház</h4><ul><li><a href="#asztalok">Asztalok és limitek</a></li><li><a href="#program">Heti program</a></li><li><a href="#bar">Bár és konyha</a></li><li><a href="#club">Club 7</a></li></ul></div>
+      <div><h4>Vendégeknek</h4><ul><li><a href="#latogatas">Nyitva tartás és parkolás</a></li><li><a href="#latogatas">Öltözet</a></li><li><a href="#latogatas">Felelős játék</a></li><li><a href="#nyerogep">Demó nyerőgép</a></li></ul></div>
+    </div>
+    <div class="legal">
+      <span>© 7Fő Diamond Casino, Los Santos</span>
+      <div class="row" style="align-items:center">
+        <form id="codeForm" autocomplete="off"><input id="codeIn" type="password" aria-label="Kód" placeholder="kód"><button class="btn ghost" style="padding:8px 14px" type="submit">OK</button></form>
+        <button id="tap7" type="button" aria-label="7">7</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ rejtett rész ============ -->
+<div id="dark" role="dialog" aria-label="Belső háló" aria-modal="true">
+  <div id="boot"></div>
+  <div class="dk-top">
+    <img src="logo.png" alt="">
+    <div class="dk-addr"><i>onion://</i>hetfo7maffia2k9xq4ldvnet.onion<i>/terkep</i></div>
+    <div id="stat">közös térkép: <b>kapcsolódás…</b></div>
+    <button class="kbtn warn" id="exit" type="button">Kilépés [Esc]</button>
+  </div>
+  <div class="dk-body">
+    <aside class="dk-side">
+      <div>
+        <h4>Kategóriák</h4>
+        <div id="cats"></div>
+        <p class="hint rw">Válassz kategóriát, aztán <b>kattints a térképre</b>. A jelölőt utána arrébb is húzhatod. Amit leraksz, azt mindenki látja.</p>
+        <p class="hint ronly">Csak olvasás. Helyet a tulaj és az általa szerkesztőnek meghívott tagok rakhatnak le.</p>
+      </div>
+      <div id="editor">
+        <label for="eName">Név</label><input id="eName" type="text" maxlength="60">
+        <label for="eCat">Kategória</label><select id="eCat"></select>
+        <label for="eNote">Megjegyzés</label><textarea id="eNote" maxlength="400" placeholder="ár, őr, nyitás, jelszó…"></textarea>
+        <div class="row"><button class="kbtn" id="eDone" type="button">Kész</button><button class="kbtn warn rw" id="eDel" type="button">Törlés</button></div>
+      </div>
+      <div>
+        <h4>Helyek <span id="total"></span></h4>
+        <div id="list"></div>
+      </div>
+    </aside>
+    <div class="dk-map">
+      <div class="tools">
+        <button class="kbtn" id="zIn" type="button" aria-label="Nagyítás">+</button>
+        <button class="kbtn" id="zOut" type="button" aria-label="Kicsinyítés">−</button>
+        <button class="kbtn" id="zFit" type="button">Egész térkép</button>
+        <span id="mode">mód: <b>mozgatás</b></span>
+      </div>
+      <div id="view">
+        <div id="layer"><img id="base" src="map.jpg" alt="Los Santos és Blaine megye térképe" draggable="false"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id)};
+function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+var calm=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+/* rulettkerék: 37 mező, egy zöld nulla */
+(function(){var n=37,st=[],a=360/n;for(var i=0;i<n;i++){var c=i===0?"#0f6b45":i%2?"#a81c28":"#0c0c0c";st.push(c+" "+(i*a)+"deg "+((i+1)*a-.35)+"deg","#cda455 "+((i+1)*a-.35)+"deg "+((i+1)*a)+"deg")}
+  $("wheel").style.background="conic-gradient("+st.join(",")+")"})();
+
+/* jackpot számláló */
+var jp=1284317.42;
+function jpShow(){$("jackpot").textContent="$"+jp.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
+if(!calm)setInterval(function(){jp+=Math.random()*.9+.05;jpShow()},160);
+
+/* futó szalag */
+var winners=[["Rulett, 17 fekete","$86,450"],["Progresszív jackpot, 212-es gép","$412,880"],["Blackjack, 3-as asztal","$12,300"],["Hétfő Night főverseny, 1. hely","$4,150"],["Baccarat, szalon","$57,000"],["Craps, 2-es asztal","$9,720"]];
+var t=$("tick");
+for(var k=0;k<2;k++)winners.forEach(function(w){var s=el("span");s.append(w[0]+"  ");s.append(el("b",null,w[1]));t.append(s)});
+
+/* demó nyerőgép: $1 tét */
+var SYM=["7","♦","♠","♥","♣","BAR"],bal=100,busy=false;
+function show(i,s){var r=$("r"+i);r.textContent=s;r.classList.toggle("red",s==="7"||s==="♦"||s==="♥");r.style.fontSize=s==="BAR"?"clamp(20px,4vw,32px)":""}
+function payout(a){
+  if(a[0]===a[1]&&a[1]===a[2])return a[0]==="7"?50:a[0]==="♦"?20:10;
+  if(a[0]===a[1]||a[1]===a[2]||a[0]===a[2])return 2;
+  return 0;
+}
+$("spin").addEventListener("click",function(){
+  if(busy)return;
+  if(bal<1){bal=100;$("bal").textContent=bal;$("slotMsg").textContent="A ház újratöltötte a kreditedet.";return}
+  busy=true;bal-=1;$("bal").textContent=bal;$("win").textContent=0;$("slotMsg").textContent="…";
+  var res=[0,1,2].map(function(){return SYM[Math.floor(Math.random()*SYM.length)]});
+  var timers=[0,1,2].map(function(i){$("r"+i).classList.add("spin");return setInterval(function(){show(i,SYM[Math.floor(Math.random()*SYM.length)])},70)});
+  [0,1,2].forEach(function(i){setTimeout(function(){
+    clearInterval(timers[i]);$("r"+i).classList.remove("spin");show(i,res[i]);
+    if(i===2){var w=payout(res);bal+=w;$("bal").textContent=bal;$("win").textContent=w;
+      $("slotMsg").textContent=w>=50?"JACKPOT. Három hetes!":w>=10?"Három egyforma. Szép kör.":w?"Két egyforma, duplázott.":bal<1?"Elfogyott. Nyomd meg újra a feltöltéshez.":"Most a ház nyert.";
+      busy=false}
+  },calm?60:500+i*380)});
+});
+
+/* ---------- belépés a rejtett részbe ---------- */
+var CODE="hetfomaffia",buf="",dark=$("dark");
+function typing(e){var n=e.target&&e.target.tagName;return n==="INPUT"||n==="TEXTAREA"||n==="SELECT"}
+document.addEventListener("keydown",function(e){
+  if(dark.classList.contains("on")){if(e.key==="Escape"){if(sel){select(null)}else closeDark()}return}
+  if(typing(e)||e.key.length!==1)return;
+  buf=(buf+e.key.toLowerCase()).slice(-CODE.length);
+  if(buf===CODE){buf="";openDark()}
+});
+var taps=0;
+$("tap7").addEventListener("click",function(){if(++taps>=7){$("codeForm").classList.add("on");$("codeIn").focus()}});
+$("codeForm").addEventListener("submit",function(e){e.preventDefault();var i=$("codeIn");
+  if(i.value.trim().toLowerCase()===CODE){i.value="";$("codeForm").classList.remove("on");taps=0;i.blur();openDark()}else{i.value="";i.placeholder="rossz kód"}});
+
+var BOOT=["> csatorna nyitása …… ok","> útvonal: 3 ugrás, titkosítva","> azonosítás: HÉT FŐ","> napló kikapcsolva","> térkép betöltése ……"];
+function openDark(){
+  dark.classList.add("on");document.body.style.overflow="hidden";
+  var b=$("boot");
+  if(calm){ready();return}
+  dark.classList.add("booting");b.textContent="";
+  BOOT.forEach(function(l,i){setTimeout(function(){b.textContent+=l+"\n"},i*190)});
+  setTimeout(function(){dark.classList.remove("booting");ready()},BOOT.length*190+350);
+}
+function ready(){if(!fitted){fit();fitted=true}$("exit").focus()}
+function closeDark(){dark.classList.remove("on","booting");document.body.style.overflow=""}
+$("exit").addEventListener("click",closeDark);
+
+/* ---------- térkép ---------- */
+var CATS=[
+ {id:"drog",name:"Drogeladó hely",g:"D",c:"#5fe08d"},
+ {id:"fegyver",name:"Fegyvercraft",g:"F",c:"#f0884a"},
+ {id:"mosas",name:"Pénzmosás",g:"P",c:"#e6c65a"},
+ {id:"rejtek",name:"Rejtekhely / raktár",g:"R",c:"#6fb7f0"},
+ {id:"talalka",name:"Találkozópont",g:"T",c:"#c58cf0"},
+ {id:"veszely",name:"Veszélyzóna (rendőr)",g:"!",c:"#f06a6a"},
+ {id:"egyeb",name:"Egyéb",g:"E",c:"#dfe9e2"}
+];
+var catOf={};CATS.forEach(function(c){catOf[c.id]=c});
+var KEY="hetfo.helyek.v2",marks=[],hidden={},placing=null,sel=null,fitted=false;
+var shared=null,canWrite=true,queues={},loadT=null,pend=null,pendT=null;
+var W=1200,H=1800,s=1,tx=0,ty=0;
+var view=$("view"),layer=$("layer");
+
+function clean(a){
+  if(!Array.isArray(a))return [];
+  return a.filter(function(m){return m&&isFinite(m.x)&&isFinite(m.y)&&m.id}).slice(0,800).map(function(m){
+    return {id:String(m.id),cat:catOf[m.cat]?m.cat:"egyeb",name:String(m.name||"Névtelen").slice(0,60),note:String(m.note||"").slice(0,400),
+      x:Math.min(1,Math.max(0,+m.x)),y:Math.min(1,Math.max(0,+m.y))}});
+}
+function status(txt,bad){var st=$("stat");st.className=bad?"bad":"";st.textContent=shared?"közös térkép: ":"térkép: ";st.append(el("b",null,txt))}
+function setRO(){if(!canWrite)return;canWrite=false;dark.classList.add("ro");placing=null;view.classList.remove("placing");
+  ["eName","eCat","eNote"].forEach(function(i){$(i).disabled=true});setMode();render()}
+
+/* mentés: közös adatbázis, vagy ha az nem érhető el, ez a böngésző */
+function body(m){return {cat:m.cat,name:m.name,note:m.note,x:m.x,y:m.y}}
+function queue(id,fn){queues[id]=(queues[id]||Promise.resolve()).then(fn).catch(function(e){
+  if(e&&e.code==="invalid_argument")setRO();else status("a mentés nem sikerült, próbáld újra",true)})}
+function persist(m){
+  if(!shared){try{localStorage.setItem(KEY,JSON.stringify(marks))}catch(e){}return}
+  var b=body(m),id=m.id;queue(id,function(){return shared.collection("helyek").doc(id).set(b)});
+}
+function removeMark(id){
+  marks=marks.filter(function(m){return m.id!==id});
+  if(!shared){try{localStorage.setItem(KEY,JSON.stringify(marks))}catch(e){}return}
+  queue(id,function(){return shared.collection("helyek").doc(id).delete()});
+}
+function flush(){if(pendT){clearTimeout(pendT);pendT=null}if(pend){var p=pend;pend=null;persist(p)}}
+
+function localMode(){
+  shared=null;
+  try{marks=clean(JSON.parse(localStorage.getItem(KEY)||"[]"))}catch(e){marks=[]}
+  status("csak ezen a gépen (a közös adatbázis még nincs bekötve)",true);render();
+}
+function onSnap(snap){
+  clearTimeout(loadT);
+  var arr=[];snap.docs.forEach(function(d){var b=d.data();if(b)arr.push({id:d.id,cat:b.cat,name:b.name,note:b.note,x:b.x,y:b.y})});
+  var next=clean(arr);
+  if(drag&&drag.mark&&drag.moved){var cur=byId(drag.mark);if(cur)next.forEach(function(m){if(m.id===cur.id){m.x=cur.x;m.y=cur.y}})}
+  if(pend)next.forEach(function(m){if(m.id===pend.id){m.name=pend.name;m.cat=pend.cat;m.note=pend.note}});
+  marks=next;
+  if(sel&&!byId(sel))select(null);else render();
+  status(snap.metadata&&snap.metadata.fromCache?"szinkronizálás…":"élő");
+}
+function initShared(){
+  if(!window.claude||typeof window.claude.use!=="function"){localMode();return}
+  Promise.all([window.claude.use("db"),window.claude.use("user")]).then(function(r){
+    var db=r[0],user=r[1];
+    if(!db){localMode();return}
+    shared=db;status("kapcsolódás…");
+    loadT=setTimeout(function(){status("most nem érhető el, a látott adat régi lehet",true)},10000);
+    db.collection("helyek").onSnapshot(onSnap,function(){clearTimeout(loadT);status("megszakadt a kapcsolat, töltsd újra az oldalt",true)});
+    if(user)user.can("data.write").then(function(v){if(v===false)setRO()});
+  }).catch(localMode);
+}
+
+function apply(){layer.style.width=W+"px";layer.style.height=H+"px";layer.style.transform="translate("+tx+"px,"+ty+"px) scale("+s+")";layer.style.setProperty("--s",s)}
+function fit(){var r=view.getBoundingClientRect();if(!r.width)return;s=Math.min(r.width/W,r.height/H)*.96;tx=(r.width-W*s)/2;ty=(r.height-H*s)/2;apply()}
+function zoom(f,cx,cy){var r=view.getBoundingClientRect();if(cx==null){cx=r.width/2;cy=r.height/2}
+  var ns=Math.min(10,Math.max(.1,s*f));tx=cx-(cx-tx)*(ns/s);ty=cy-(cy-ty)*(ns/s);s=ns;apply()}
+$("zIn").onclick=function(){zoom(1.4)};$("zOut").onclick=function(){zoom(1/1.4)};$("zFit").onclick=fit;
+view.addEventListener("wheel",function(e){e.preventDefault();var r=view.getBoundingClientRect();zoom(e.deltaY<0?1.18:1/1.18,e.clientX-r.left,e.clientY-r.top)},{passive:false});
+window.addEventListener("resize",function(){if(dark.classList.contains("on"))fit()});
+
+/* húzás: térkép vagy jelölő */
+var drag=null;
+view.addEventListener("pointerdown",function(e){
+  if(e.button)return;
+  var mk=e.target.closest(".mk");
+  drag={x:e.clientX,y:e.clientY,tx:tx,ty:ty,moved:false,mark:mk?mk.dataset.id:null};
+  try{view.setPointerCapture(e.pointerId)}catch(err){}
+});
+view.addEventListener("pointermove",function(e){
+  if(!drag)return;
+  var dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(!drag.moved&&Math.abs(dx)+Math.abs(dy)<6)return;
+  drag.moved=true;
+  if(drag.mark&&canWrite){var m=byId(drag.mark),p=toMap(e);if(m){m.x=p.x;m.y=p.y;var n=layer.querySelector('[data-id="'+CSS.escape(m.id)+'"]');if(n){n.style.left=m.x*100+"%";n.style.top=m.y*100+"%"}}}
+  else{tx=drag.tx+dx;ty=drag.ty+dy;apply()}
+});
+view.addEventListener("pointerup",function(e){
+  if(!drag)return;var d=drag;drag=null;
+  if(d.moved){if(d.mark&&canWrite){var mm=byId(d.mark);if(mm)persist(mm)}return}
+  if(d.mark){select(d.mark);return}
+  if(placing&&canWrite){var p=toMap(e);
+    var m={id:"m"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),cat:placing,name:"Új "+catOf[placing].name.toLowerCase(),note:"",x:p.x,y:p.y};
+    marks.push(m);persist(m);select(m.id);$("eName").select();return}
+  select(null);
+});
+view.addEventListener("pointercancel",function(){drag=null});
+function toMap(e){var r=view.getBoundingClientRect();return{x:Math.min(1,Math.max(0,(e.clientX-r.left-tx)/s/W)),y:Math.min(1,Math.max(0,(e.clientY-r.top-ty)/s/H))}}
+function byId(id){for(var i=0;i<marks.length;i++)if(marks[i].id===id)return marks[i];return null}
+
+function setMode(){var md=$("mode");md.textContent="mód: ";md.append(el("b",null,placing?"lerakás · "+catOf[placing].name:canWrite?"mozgatás":"csak olvasás"))}
+function setPlacing(id){if(!canWrite)return;placing=placing===id?null:id;view.classList.toggle("placing",!!placing);setMode();renderCats()}
+
+function renderCats(){
+  var box=$("cats");box.textContent="";
+  CATS.forEach(function(c){
+    var n=marks.filter(function(m){return m.cat===c.id}).length;
+    var b=el("div","cat"+(placing===c.id?" act":"")+(hidden[c.id]?" off":""));b.style.setProperty("--c",c.c);
+    b.setAttribute("role","button");b.tabIndex=0;
+    b.append(el("span","glyph",c.g),el("span",null,c.name),el("span","n",String(n)));
+    var eye=el("button","eye",hidden[c.id]?"rejtve":"látszik");eye.type="button";
+    eye.addEventListener("click",function(ev){ev.stopPropagation();hidden[c.id]=!hidden[c.id];render()});
+    b.append(eye);
+    b.addEventListener("click",function(){setPlacing(c.id)});
+    b.addEventListener("keydown",function(ev){if(ev.target===b&&(ev.key==="Enter"||ev.key===" ")){ev.preventDefault();setPlacing(c.id)}});
+    box.append(b);
+  });
+}
+function render(){
+  layer.querySelectorAll(".mk").forEach(function(n){n.remove()});
+  var list=$("list");list.textContent="";
+  marks.forEach(function(m){
+    var c=catOf[m.cat];
+    if(!hidden[m.cat]){
+      var n=el("div","mk"+(sel===m.id?" sel":""));n.dataset.id=m.id;n.style.setProperty("--c",c.c);n.style.left=m.x*100+"%";n.style.top=m.y*100+"%";
+      n.append(el("div","glyph",c.g),el("span",null,m.name));layer.append(n);
+    }
+    var it=el("button","item"+(sel===m.id?" sel":""));it.type="button";it.style.setProperty("--c",c.c);
+    var d=el("div");d.append(m.name,el("small",null,c.name+(m.note?" · "+m.note:"")));
+    it.append(el("i"),d);
+    it.addEventListener("click",function(){select(m.id);center(m)});
+    list.append(it);
+  });
+  if(!marks.length)list.append(el("p","hint","Még nincs hely lerakva."));
+  $("total").textContent="("+marks.length+")";
+  renderCats();
+}
+function center(m){var r=view.getBoundingClientRect();if(s<.9)s=1;tx=r.width/2-m.x*W*s;ty=r.height/2-m.y*H*s;apply()}
+function select(id){
+  if(id!==sel)flush();
+  sel=id;var m=id&&byId(id),ed=$("editor");
+  ed.classList.toggle("on",!!m);
+  if(m){$("eName").value=m.name;$("eCat").value=m.cat;$("eNote").value=m.note}
+  render();
+}
+CATS.forEach(function(c){var o=el("option",null,c.name);o.value=c.id;$("eCat").append(o)});
+function edit(){var m=byId(sel);if(!m||!canWrite)return;
+  m.name=$("eName").value.trim().slice(0,60)||"Névtelen";m.cat=$("eCat").value;m.note=$("eNote").value.trim().slice(0,400);
+  pend={id:m.id,cat:m.cat,name:m.name,note:m.note,x:m.x,y:m.y};
+  clearTimeout(pendT);pendT=setTimeout(flush,700);render()}
+$("eName").addEventListener("input",edit);$("eNote").addEventListener("input",edit);$("eCat").addEventListener("change",edit);
+$("eDone").addEventListener("click",function(){select(null)});
+$("eDel").addEventListener("click",function(){if(!canWrite)return;var id=sel;pend=null;clearTimeout(pendT);sel=null;removeMark(id);select(null)});
+
+apply();setMode();render();initShared();
+})();
+</script>
+</body>
+</html>
